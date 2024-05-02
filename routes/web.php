@@ -20,4 +20,15 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/admin/config', [AdminController::class, 'index'])->name('admin.config');
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/config', [AdminController::class, 'index'])->name('admin.config');
+});
+
+Route::middleware(['auth', 'role:tecnicos'])->group(function () {
+    // Routes accessible only to users with the 'tecnicos' role
+});
+
+Route::middleware(['auth', 'role:analistas'])->group(function () {
+    // Routes accessible only to users with the 'analistas' role
+});
