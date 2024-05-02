@@ -1,9 +1,3 @@
-{% extends 'base.html' %}
-
-{% block title %} {% endblock title %}
-
-
-{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -159,4 +153,3 @@
   </script>
 </body>
 </html>
-{% endblock content %}

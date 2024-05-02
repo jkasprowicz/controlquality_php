@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserRoleController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,8 +22,13 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
+Route::get('/admin/config', [AdminController::class, 'index'])->name('admin.config');
+
+Route::get('/admin/assign-role', [UserRoleController::class, 'showAssignRoleForm'])->name('assign-role-form');
+Route::post('/admin/assign-role', [UserRoleController::class, 'assignRole'])->name('assign-role');
+
+
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/config', [AdminController::class, 'index'])->name('admin.config');
 });
 
 Route::middleware(['auth', 'role:tecnicos'])->group(function () {

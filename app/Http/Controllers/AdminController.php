@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+
 
 class AdminController extends Controller
 {
@@ -11,8 +15,13 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.config');
+        if (Auth::user()->hasRole('admin')) {
+            return view('admin.config');
+        } else {
+            abort(403, 'Acesso não autorizado.');
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
