@@ -1,16 +1,21 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserRoleController;
+use Inertia\Inertia;
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -20,21 +25,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-
-Route::get('/admin/config', [AdminController::class, 'index'])->name('admin.config');
-
-Route::get('/admin/assign-role', [UserRoleController::class, 'showAssignRoleForm'])->name('assign-role-form');
-Route::post('/admin/assign-role', [UserRoleController::class, 'assignRole'])->name('assign-role');
-
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
-});
-
-Route::middleware(['auth', 'role:tecnicos'])->group(function () {
-    // Routes accessible only to users with the 'tecnicos' role
-});
-
-Route::middleware(['auth', 'role:analistas'])->group(function () {
-    // Routes accessible only to users with the 'analistas' role
-});

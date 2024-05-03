@@ -3,8 +3,10 @@
 <html>
 <head>
     <link rel="stylesheet" href="{{ asset('css/role.css') }}">
+    
 </head>
 <body>
+@include('navbar')
 
 <form method="POST" action="{{ route('assign-role') }}">
     @csrf
